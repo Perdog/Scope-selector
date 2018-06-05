@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Latest compiled and minified JQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	
+	<!-- Latest compiled and minified Bootstrap -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript" src="code.js"></script>
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.18.1/vis.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel="stylesheet" href="./bootstrap.css">
+	
+	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.css">
+	
+	<style>
+		li a {
+			color: white;
+			text-decoration: none;
+		}
+		
+		h2 {
+			max-width: 99.9%;
+		}
+		
+		.ui-mobile .ui-page .ui-content .ui-collapsible .ui-collapsible-heading .ui-btn-text {
+			white-space : normal;
+		}
+		
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+		
+		li p {
+			display: inline-block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		
+		li img {
+			display: inline-block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		
+		.dynamic-content {
+			display: none;
+		}
+		
+		.row {
+			display: flex;
+			flex: 100%;
+			margin: 0%;
+			align-items: center;
+		}
+		
+		.sidebar {
+			flex: 8%;
+		}
+		
+		.center-content {
+			flex: 84%;
+			text-align: center;
+		}
+		
+		.column {
+			flex: 32%;
+			text-align: center;
+		}
+		
+		.grid {
+			padding: 10px;
+			flex: 49%;
+			text-align: center;
+			border-style: solid;
+			border-width: 1px;
+		}
+		
+		.grid-check {
+			flex: 10%;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+		
+		.grid-desc {
+			flex: 90%;
+			text-align: center;
+		}
+		
+		.form-control {
+			width: 100%;
+			text-align: center;
+		}
+		
+	</style>
+</head>
+<body>
+	<!--
+	-- I like the idea of a header bar but unsure how to set one up on a page like this. Maybe just have it show where it's coming from or something?
+	-->
+	<!--
+	<ul id="header-bar">
+		<li style="float:left"><img src="./imgs/Logo.png" style="width:150px"></img></li>
+		<li style="float:right">
+			<div id="as" class="dynamic-content">
+				<img src=""></img>
+				<a id="logged-name">Logged in as: No one</a>
+				<a id="timer">...</a>
+				<button id="logout" style="color:black">Log out</button>
+			</div>
+		</li>
+		<li style="float:right">
+			<a id="login" class="dynamic-content" href="https://login.eveonline.com/oauth/authorize?response_type=token&redirect_uri=https://perdog.github.io/FEDUP-Member-Activity/index.html?callback&client_id=d39d34e683aa48c2b535b099c3dc404a&scope=publicData esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=membertracker">
+				<img src="https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png"></img>
+			</a>
+		</li>
+	</ul>
+	-->
+	<div data-role="page" id="page-one">
+	<div class="row">
+		<div class="sidebar"></div>
+		
+		<div class="center-content">
+			<div data-role="header">
+				<h1>EvE ESI Scope Selector</h1>
+			</div>
+			
+			<div id="selection-page" data-role="content" class="ui-content">
+				
+				<div data-role="collapsible" data-collapsed="false" data-iconpos="right" id="char-scopes">
+					<h1>Character</h1>
+					<br />
+					<div class="row">
+						
+						<div class="grid dynamic-content" id="esi-assets.read_assets.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-assets.read_assets.v1</h2>
+										<p>Allow an app to read your personal assets.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-bookmarks.read_character_bookmarks.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-bookmarks.read_character_bookmarks.v1</h2>
+										<p>Allow an app to read your personal bookmarks.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-calendar.read_calendar_events.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-calendar.read_calendar_events.v1</h2>
+										<p>Allow an app to read your calendar events.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-calendar.respond_calendar_events.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-calendar.respond_calendar_events.v1</h2>
+										<p>Allow an app to respond to calendar events for you.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_agents_research.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_agents_research.v1</h2>
+										<p>Who even uses these anymore?</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_blueprints.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_blueprints.v1</h2>
+										<p>Allow an app to read the blueprints you have in your personal assets.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_contacts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_contacts.v1</h2>
+										<p>Allow an app to read your personal contacts.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.write_contacts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.write_contacts.v1</h2>
+										<p>Allow an app to write/update/delete your personal contacts.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_corporation_roles.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_corporation_roles.v1</h2>
+										<p>Allow an app to read what roles you have in your corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_fatigue.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_fatigue.v1</h2>
+										<p>Allow an app to read your jump fatigue.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_fw_stats.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_fw_stats.v1</h2>
+										<p>Allow an app to read your personal FW stats.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_loyalty.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_loyalty.v1</h2>
+										<p>Allow an app to read your loyalty points from your journal.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_medals.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_medals.v1</h2>
+										<p>Allow an app to read your medals, hidden or not.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_notifications.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_notifications.v1</h2>
+										<p>Allow an app to read your notifications.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_opportunities.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_opportunities.v1</h2>
+										<p>Allow an app to read your progression through the oppurtunities system.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_standings.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_standings.v1</h2>
+										<p>Allow an app to read your characters standings with agents, NPC corps, and factions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characters.read_titles.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characters.read_titles.v1</h2>
+										<p>Allow an app to read the titles given to you by your corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-characterstats.read.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-characterstats.read.v1</h2>
+										<p>Allow an app to read your yearly aggregated stats.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-clones.read_clones.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-clones.read_clones.v1</h2>
+										<p>Allow an app to read where your medical clone is, and where you have jump clones stored along with what implants they may have.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-clones.read_implants.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-clones.read_implants.v1</h2>
+										<p>Allow an app to read what implants are in your active clone.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-contracts.read_character_contracts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-contracts.read_character_contracts.v1</h2>
+										<p>Allow an app to read your personal contracts, to or from you. Only returns contracts from the last 30 days or marked as "in progress".</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-fittings.read_fittings.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-fittings.read_fittings.v1</h2>
+										<p>Allow an app to read your personal ship fittings.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-fittings.write_fittings.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-fittings.write_fittings.v1</h2>
+										<p>Allow an app to write fits to your personal ship fittings.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-fleets.read_fleet.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-fleets.read_fleet.v1</h2>
+										<p>Allow an app to read your fleet settings, and member information.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-fleets.write_fleet.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-fleets.write_fleet.v1</h2>
+										<p>Allow an app to update fleet settings, create/delete/rename squads/wings, and invite/move/kick members from the fleet.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-industry.read_character_jobs.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-industry.read_character_jobs.v1</h2>
+										<p>Allow an app to read your personal industry jobs. Includes manufacturing/copying/research/reactions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-industry.read_character_mining.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-industry.read_character_mining.v1</h2>
+										<p>Allow an app to read your personal mining ledger.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-killmails.read_killmails.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-killmails.read_killmails.v1</h2>
+										<p>Allow an app to read your personal killmails.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-location.read_location.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-location.read_location.v1</h2>
+										<p>Allow an app to read your current location. Includes solar system and station IDs.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-location.read_online.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-location.read_online.v1</h2>
+										<p>Allow an app to read whether or not your character is online currently, how many logins you have, and when you last logged in.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-location.read_ship_type.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-location.read_ship_type.v1</h2>
+										<p>Allow an app to read your currently active ships name, type, and ID.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-mail.organize_mail.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-mail.organize_mail.v1</h2>
+										<p>Allow an app to create and delete mail labels, update metadata of mails, and delete mails entirely.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-mail.read_mail.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-mail.read_mail.v1</h2>
+										<p>Allow an app to read a mails header and contents, read labels, unread mail count, and mailing list subscriptions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-mail.send_mail.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-mail.send_mail.v1</h2>
+										<p>Allow an app to send a mail from your character.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-markets.read_character_orders.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-markets.read_character_orders.v1</h2>
+										<p>Allow an app to read your personal market orders, buy or sell.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-markets.structure_markets.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-markets.structure_markets.v1</h2>
+										<p>Allow an app to read the entire market data of any structures you have docking access to.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-planets.manage_planets.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-planets.manage_planets.v1</h2>
+										<p>Allow an app to read which planets you have colonies on, and read their layouts.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-search.search_structures.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-search.search_structures.v1</h2>
+										<p>I can not find any reference to this in ESI. If you know what it does, please contact "Pedro Athonille".</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-universe.read_structures.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-universe.read_structures.v1</h2>
+										<p>Allow an app to read public information about structures you can dock at, this includes: System, and structure name.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-skills.read_skillqueue.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-skills.read_skillqueue.v1</h2>
+										<p>Allow an app to read your active skill queue.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-skills.read_skills.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-skills.read_skills.v1</h2>
+										<p>Allow an app to read all skills and the level you have them trained to. Also allows it to read total SP and attribute point spread.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-ui.open_window.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-ui.open_window.v1</h2>
+										<p>Allow an app to open windows for: Market, Item info, Contracts, and Mail composition.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-ui.write_waypoint.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-ui.write_waypoint.v1</h2>
+										<p>Allow an app to set your auto-pilot destination.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-wallet.read_character_wallet.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-wallet.read_character_wallet.v1</h2>
+										<p>Allow an app to read your wallet data: Balance, Transactions, and Journal.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+				
+				<div data-role="collapsible" data-collapsed="false" data-iconpos="right" id="corp-scopes">
+					<h1>Corporation</h1><small>Note: Some of these endpoints may require in-game roles</small>
+					<br />
+					<div class="row">
+						
+						<div class="grid dynamic-content" id="esi-assets.read_corporation_assets.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-assets.read_corporation_assets.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read your corporation assets, their locations, and names.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-bookmarks.read_corporation_bookmarks.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-bookmarks.read_corporation_bookmarks.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your corporations bookmarks.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-contracts.read_corporation_contracts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-contracts.read_corporation_contracts.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your corporation contracts, to or from the corporation. Only returns contracts from the last 30 days or marked as "in progress".</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_blueprints.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_blueprints.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read your corporations blueprints within it's assets.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_contacts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_contacts.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your corporations contacts. Currently no endpoint exists for writing to corporation contacts.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_container_logs.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_container_logs.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read the logs recorded in the past seven days from all audit log secure containers for your corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_corporation_membership.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_corporation_membership.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read the IDs of all character in your corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.track_members.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.track_members.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read more in depth info about your corporations members: Last location, last ship, last logon/logoff date, and when they joined the corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_medals.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_medals.v1</h2>
+										<p>Roles: Director some some endpoints</p>
+										<p>Allow an app to read all medals your corporation has created, and a list of all members with their awarded medals.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_titles.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_titles.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read a list of all your corporations members and their titles.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_divisions.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_divisions.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read corporation wallet and hangar division names. Only returns names that aren't default.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_fw_stats.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_fw_stats.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your corporations FW statistics.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_facilities.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_facilities.v1</h2>
+										<p>Roles: Factory_Manager</p>
+										<p>Allow an app to read a list of your corporations facilities.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_outposts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_outposts.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to get a list of your corporations outposts, and details about each one.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_starbases.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_starbases.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read a list of your corporations starbases, and read the details of their settings and fuel.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_structures.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_structures.v1</h2>
+										<p>Roles: StationManager</p>
+										<p>Allow an app to get a list of your corporations upwell structures, including their details.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-corporations.read_standings.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-corporations.read_standings.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your corporations standings towards agents, NPC corporations, and factions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-industry.read_corporation_jobs.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-industry.read_corporation_jobs.v1</h2>
+										<p>Roles: FactoryManager</p>
+										<p>Allow an app to read your corporations running jobs. Includes: manufacturing/copying/research/reactions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-industry.read_corporation_mining.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-industry.read_corporation_mining.v1</h2>
+										<p>Roles: Structure_Manager or Accountant</p>
+										<p>Allow an app to read your corporations refineries extraction timers, and read their "observers" (Corporation mining ledgers).</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-markets.read_corporation_orders.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-markets.read_corporation_orders.v1</h2>
+										<p>Roles: Accountant or Trader</p>
+										<p>Allow an app to read your corporations market orders, buy or sell.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-wallet.read_corporation_wallets.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-wallet.read_corporation_wallets.v1</h2>
+										<p>Roles: Accountant or Junior_Accountant</p>
+										<p>Allow an app to read your corporations wallets, journal, and transactions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-planets.read_customs_offices.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-planets.read_customs_offices.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read a list of all POCOs owned by your corporation.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="grid dynamic-content" id="esi-killmails.read_corporation_killmails.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-killmails.read_corporation_killmails.v1</h2>
+										<p>Roles: Director</p>
+										<p>Allow an app to read your corporations killmails for the last 90 days.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+				
+				<div data-role="collapsible" data-collapsed="false" data-iconpos="right" id="alli-scopes">
+					<h1>Alliance</h1><small>Note: Some of these endpoints may require in-game roles</small>
+					<br />
+					<div class="row">
+						
+						<div class="grid dynamic-content" id="esi-alliances.read_contacts.v1">
+							<div class="row">
+								<div class="grid-check">
+									<input type="checkbox">
+								</div>
+								<div class="grid-desc">
+									<div data-role="collapsible" data-iconpos="right" data-mini="true">
+										<h2>esi-alliances.read_contacts.v1</h2>
+										<p>Roles: None</p>
+										<p>Allow an app to read your alliances contacts.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+				
+				<br />
+				<button id="continue" onclick="contButton()">Continue</button>
+			</div>
+			
+			<div id="help-page" data-role="content" class="ui-content dynamic-content">
+				
+				<p>If you're like me, you miss the ability that users had with the XML API page that allowed them to select which scopes third-party apps could use.</p>
+				
+				<p>Well as it turns out, it's still possible, with a little extra work.</p>
+				
+				<p>When requesting scopes for your app, you are not required to request all scopes that it <b>can</b> use. While you aren't allowed to request scopes that aren't selected on your developer page, you can leave scopes out.</p>
+				
+				<p>This page was designed to help with this process.</p>
+				
+				<p>Simply replace the begining part of your URL redirect <code>https://login.eveonline.com/oauth/authorize</code> with <code>https://eve-scopes.com</code>, leave all of your additional search parameters in place.</p>
+				
+				<br />
+				
+				<p>Example:</p>
+				
+				<code class="inlinecode">https://login.eveonline.com/oauth/authorize?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				
+				<p>becomes</p>
+				
+				<code class="codeblock">https://eve-scopes.com?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				
+				<p>You can even use the above URL example to load what the page will look like. It won't be functional, because the parameters don't have proper values set, but you'll be able to see what the selection page looks like.</p>
+				
+				
+				
+				
+			</div>
+			
+			<div data-role="footer">
+				<ul id="footer-bar">
+					<li style="float:left"><img src="./imgs/Logo.png" style="width:50px"></img></li>
+					
+					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="color: white;text-decoration:none;">Disclaimer</a></li>
+					
+					<li style="float:right">
+						<div id="as" class="dynamic-content">
+							<img src=""></img>
+							<a id="logged-name">Logged in as: No one</a>
+							<a id="timer">...</a>
+							<button id="logout" style="color:black">Log out</button>
+						</div>
+					</li>
+					
+					<li style="float:right">
+						
+					</li>
+				</ul>
+				
+			</div>
+			
+			<br />
+		</div>
+		
+		<div class="sidebar"></div>
+	</div>
+	</div>
+	
+	<div class="modal hide" id="disclaimerDialog" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Disclaimer</h5>
+				</div>
+				<div class="modal-body" style="color:white">
+					<p>This website bears no responsibility for anything that your data is used for.</p>
+					
+					<p>This page was created to allow users of third-party apps to select which scopes an app can use, however it has no control over what they may do with that data.</p>
+					
+					<p>Please continue to use trusted third-party apps only.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Script for collapsible areas -->
+	<script>
+	var coll = document.getElementsByClassName("collapsible");
+	var i;
+	
+	for (i = 0; i < coll.length; i++) {
+		coll[i].addEventListener("click", function() {
+			this.classList.toggle("active");
+			var content = this.nextElementSibling;
+			if (content.style.maxHeight){
+				content.style.maxHeight = null;
+			} else {
+				content.style.maxHeight = content.scrollHeight + "px";
+			}
+		});
+	}
+	</script>
+	
+</body>
+
+</html>
