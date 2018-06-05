@@ -59,6 +59,11 @@
 			text-decoration: none;
 		}
 		
+		.codeblock {
+			display: block;
+			white-space: pre-wrap;
+		}
+		
 		.dynamic-content {
 			display: none;
 		}
@@ -1165,13 +1170,13 @@
 				
 				<br />
 				
-				<p>Example:</p>
+				<p><u>Example:</u></p>
 				
-				<code class="inlinecode">https://login.eveonline.com/oauth/authorize?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				<code class="codeblock">https://login.eveonline.com/oauth/authorize?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
 				
 				<p>becomes</p>
 				
-				<code class="codeblock">https://eve-scopes.com?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				<code class="codeblock">https://eve-scopes.com/?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
 				
 				<p>You can even use the above URL example to load what the page will look like. It won't be functional, because the parameters don't have proper values set, but you'll be able to see what the selection page looks like.</p>
 				
@@ -1181,10 +1186,12 @@
 			</div>
 			
 			<div data-role="footer">
-				<ul id="footer-bar">
+				<ul id="footer-bar" style="align-items;center;">
 					<li style="float:left"><img src="./imgs/Logo.png" style="width:50px"></img></li>
 					
-					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="color: white;text-decoration:none;">Disclaimer</a></li>
+					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="color:white;">Disclaimer</a></li>
+					
+					<li style="float:right;color:white;text-decoration:none;"><small><a>Brought to you by </a><a href="https://zkillboard.com/character/97243273/" target="_blank">Pedro Athonille</a></small></li>
 					
 					<li style="float:right">
 						<div id="as" class="dynamic-content">
@@ -1211,9 +1218,9 @@
 	
 	<div class="modal hide" id="disclaimerDialog" role="dialog">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content" style="color:white;">
 				<div class="modal-header">
-					<h5 class="modal-title">Disclaimer</h5>
+					<h2 class="modal-title">Disclaimer</h2>
 				</div>
 				<div class="modal-body" style="color:white">
 					<p>This website bears no responsibility for anything that your data is used for.</p>
@@ -1221,6 +1228,9 @@
 					<p>This page was created to allow users of third-party apps to select which scopes an app can use, however it has no control over what they may do with that data.</p>
 					
 					<p>Please continue to use trusted third-party apps only.</p>
+				</div>
+				<div class="modal-body" style="color:white">
+					<p></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
