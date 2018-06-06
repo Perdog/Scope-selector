@@ -1,4 +1,4 @@
-var type, redirect, clientid, scope, state;
+var type, redirect, clientid, scope, state, reqscope;
 
 function contButton() {
 	var list = $(".ui-content").find("input").filter(":checked");
@@ -24,6 +24,23 @@ function contButton() {
 	}
 }
 
+function selectAll() {
+	var list = $(".ui-content").find("input").filter(":visible");
+	
+	for (var i = 0; i < list.length; i++) {
+		list[i].checked = true;
+	}
+}
+
+function deselectAll() {
+	var list = $(".ui-content").find("input").filter(":visible");
+	
+	for (var i = 0; i < list.length; i++) {
+		if (!list[i].disabled)
+			list[i].checked = false;
+	}
+}
+
 $(document).ready(function() {
 	// Load server status into header
 	//serverStatus();
@@ -36,24 +53,36 @@ $(document).ready(function() {
 		?response_type=token
 		&redirect_uri=test.com
 		&client_id=d39d34e683aa48c2b535b099c3dc404a
-		&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1
+		&reqscope=esi-corporations.read_corporation_membership.v1
+		&scope=esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1
 		&state=membertracker
 		*/
 		type = parseSearch("response_type");
 		redirect = parseSearch("redirect_uri");
 		clientid = parseSearch("client_id");
+		reqscope = parseSearch("reqscope");
 		scope = parseSearch("scope");
 		state = parseSearch("state");
 		
 		// If all vars exist, the page has been called properly.
 		if (type && redirect && clientid && scope && state) {
+			var reqscopes = ((reqscope) ? reqscope.split(" ") : []);
 			var scopes = scope.split(" ");
 			
-			for (var i = 0; i < scopes.length; i++) {
-				var esi = scopes[i];
-				var elem = $("div[id=\""+esi+"\"]");
+			for (var h = 0; h < reqscopes.length; h++) {
+				var s = reqscopes[h];
+				var e = $("div[id=\"" + s + "\"]");
+				e.show();
 				
-				elem.show();
+				var inp = e.find("input")[0];
+				inp.checked = true;
+				inp.disabled = true;
+			}
+			for (var i = 0; i < scopes.length; i++) {
+				var s = scopes[i];
+				var e = $("div[id=\""+s+"\"]");
+				
+				e.show();
 			}
 			
 			var charscope = $("#char-scopes").find(".grid").filter(":visible");
