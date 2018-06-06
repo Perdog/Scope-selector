@@ -2,6 +2,17 @@
 <html>
 
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120465988-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-120465988-1');
+	</script>
+
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<!-- Latest compiled and minified JQuery -->
@@ -16,10 +27,10 @@
 	
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.18.1/vis.min.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	<link rel="stylesheet" href="./bootstrap.css">
 	
 	<link rel="stylesheet" href="">
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.css">
+	<link rel="stylesheet" href="./bootstrap.css">
 	
 	<style>
 		li a {
@@ -773,7 +784,7 @@
 						
 					</div>
 				</div>
-				
+				<br />
 				<div data-role="collapsible" data-collapsed="false" data-iconpos="right" id="corp-scopes">
 					<h1>Corporation</h1><small>Note: Some of these endpoints may require in-game roles</small>
 					<br />
@@ -1127,7 +1138,7 @@
 						
 					</div>
 				</div>
-				
+				<br />
 				<div data-role="collapsible" data-collapsed="false" data-iconpos="right" id="alli-scopes">
 					<h1>Alliance</h1><small>Note: Some of these endpoints may require in-game roles</small>
 					<br />
@@ -1162,26 +1173,26 @@
 				
 				<p>Well as it turns out, it's still possible, with a little extra work.</p>
 				
-				<p>When requesting scopes for your app, you are not required to request all scopes that it <b>can</b> use. While you aren't allowed to request scopes that aren't selected on your developer page, you can leave scopes out.</p>
+				<p>Thankfully, I've done that work for you. When requesting scopes for your app, you are not required to request all scopes that it <b>can</b> use. While you aren't allowed to request scopes that aren't selected on your developer page, you can leave scopes out.</p>
 				
 				<p>This page was designed to help with this process.</p>
 				
 				<p>Simply replace the begining part of your URL redirect <code>https://login.eveonline.com/oauth/authorize</code> with <code>https://eve-scopes.com</code>, leave all of your additional search parameters in place.</p>
 				
+				<p>When a user is redirected here, and selects the scopes they want to provide access to, this page will then rebuild the URL containing only those scopes. All information that you passed to this page will then be reused, including the redirect_uri that points back to your page, so absolutely no extra work is required from you (Unless you count putting in checks to make sure you have permission to use endpoints before calling them as work).</p>
+				
 				<br />
+				<hr>
 				
 				<p><u>Example:</u></p>
 				
-				<code class="codeblock">https://login.eveonline.com/oauth/authorize?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				<code class="codeblock" style="color:red;">https://login.eveonline.com/oauth/authorize?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
 				
 				<p>becomes</p>
 				
-				<code class="codeblock">https://eve-scopes.com/?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</code>
+				<code class="codeblock"><a href="https://eve-scopes.com/?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]" target="_blank" style="color:red;text-decoration:none;">https://eve-scopes.com/?response_type=[type]&redirect_uri=[redirect]&client_id=[id]&scope=esi-corporations.read_corporation_membership.v1 esi-characters.read_corporation_roles.v1 esi-corporations.track_members.v1 esi-corporations.read_titles.v1 esi-corporations.read_fw_stats.v1&state=[unique state]</a></code>
 				
-				<p>You can even use the above URL example to load what the page will look like. It won't be functional, because the parameters don't have proper values set, but you'll be able to see what the selection page looks like.</p>
-				
-				
-				
+				<p>You can even click the above URL example to load what the page will look like. It won't be functional, because the parameters don't have proper values set, but you'll be able to see what the selection page looks like.</p>
 				
 			</div>
 			
@@ -1189,22 +1200,9 @@
 				<ul id="footer-bar" style="align-items;center;">
 					<li style="float:left"><img src="./imgs/Logo.png" style="width:50px"></img></li>
 					
-					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="color:white;">Disclaimer</a></li>
+					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="">Disclaimer</a></li>
 					
-					<li style="float:right;color:white;text-decoration:none;"><small><a>Brought to you by </a><a href="https://zkillboard.com/character/97243273/" target="_blank">Pedro Athonille</a></small></li>
-					
-					<li style="float:right">
-						<div id="as" class="dynamic-content">
-							<img src=""></img>
-							<a id="logged-name">Logged in as: No one</a>
-							<a id="timer">...</a>
-							<button id="logout" style="color:black">Log out</button>
-						</div>
-					</li>
-					
-					<li style="float:right">
-						
-					</li>
+					<li style="float:right;text-decoration:none;"><small><a>Brought to you by </a><a href="https://zkillboard.com/character/97243273/" target="_blank">Pedro Athonille</a></small></li>
 				</ul>
 				
 			</div>
