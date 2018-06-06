@@ -2,7 +2,11 @@
 <html>
 
 <head>
+	<title>EvE ESI Scope Selector</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="eve, esi, scopes, selectable">
+	<meta name="description" content="A scope selector for EvE onlines ESI API">
+	<meta name="author" content="Pedro Athonille">
 	
 	<!-- Latest compiled and minified JQuery -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -17,9 +21,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.18.1/vis.min.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	
-	<link rel="stylesheet" href="">
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.css">
-	<link rel="stylesheet" href="./bootstrap.css">
+	<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/south-street/jquery-ui.css">-->
 	
 	<style>
 		li a {
@@ -32,7 +35,9 @@
 		}
 		
 		.ui-mobile .ui-page .ui-content .ui-collapsible .ui-collapsible-heading .ui-btn-text {
-			white-space : normal;
+			white-space: nowrap; 
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		
 		ul {
@@ -1202,9 +1207,9 @@
 				<ul id="footer-bar" style="align-items;center;">
 					<li style="float:left"><img src="./imgs/Logo.png" style="width:50px"></img></li>
 					
-					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="">Disclaimer</a></li>
+					<li style="float:left;"><a data-toggle="modal" href="#disclaimerDialog" style="color:white;text-decoration:none;"><u>Disclaimer</u></a></li>
 					
-					<li style="float:right;text-decoration:none;"><small><a>Brought to you by </a><a href="https://zkillboard.com/character/97243273/" target="_blank">Pedro Athonille</a></small></li>
+					<li style="float:right;color:white;"><small><a>Brought to you by </a><a style="text-decoration:none;" href="https://zkillboard.com/character/97243273/" target="_blank">Pedro Athonille</a></small></li>
 				</ul>
 				
 			</div>
@@ -1228,12 +1233,6 @@
 					<p>This page was created to allow users of third-party apps to select which scopes an app can use, however it has no control over what they may do with that data.</p>
 					
 					<p>Please continue to use trusted third-party apps only.</p>
-				</div>
-				<div class="modal-body" style="color:white">
-					<p></p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
