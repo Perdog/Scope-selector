@@ -64,6 +64,9 @@ $(document).ready(function() {
 		scope = parseSearch("scope");
 		state = parseSearch("state");
 		
+		if (reqscope)
+			$("#req-warning").show()
+		
 		// If all vars exist, the page has been called properly.
 		if (type && redirect && clientid && scope && state) {
 			var reqscopes = ((reqscope) ? reqscope.split(" ") : []);
